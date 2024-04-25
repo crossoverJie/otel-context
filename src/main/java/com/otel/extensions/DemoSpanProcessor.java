@@ -1,19 +1,14 @@
-package com.ypshengxian.otel.extensions;
+package com.otel.extensions;
 
-import static com.ypshengxian.otel.extensions.DemoPropagator.PROPAGATION_UPSTREAM_NAME;
-import static com.ypshengxian.otel.extensions.DemoPropagator.UPSTREAM_NAME;
+import static com.otel.extensions.DemoPropagator.PROPAGATION_UPSTREAM_NAME;
+import static com.otel.extensions.DemoPropagator.UPSTREAM_NAME;
 import io.opentelemetry.api.baggage.Baggage;
-import io.opentelemetry.api.baggage.BaggageBuilder;
 import io.opentelemetry.api.internal.StringUtils;
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.context.Context;
-import io.opentelemetry.context.ContextKey;
 import io.opentelemetry.sdk.common.CompletableResultCode;
 import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import io.opentelemetry.sdk.trace.SpanProcessor;
-import java.lang.reflect.Field;
 import java.util.Random;
 
 public class DemoSpanProcessor implements SpanProcessor {
@@ -35,7 +30,6 @@ public class DemoSpanProcessor implements SpanProcessor {
         System.out.println(String.format("SpanProcessor=====context: %s", parentContext));
         System.out.println("SpanProcessor=====span: " + span);
         System.out.println("SpanProcessor=====span_name: " + span.getName());
-//        span.getParentSpanContext()
 
         Random random = new Random();
         int randomNumber = random.nextInt(11);

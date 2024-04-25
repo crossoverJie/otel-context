@@ -1,7 +1,6 @@
-package com.ypshengxian.otel.extensions;
+package com.otel.extensions;
 
 import io.opentelemetry.api.baggage.Baggage;
-import io.opentelemetry.api.baggage.BaggageBuilder;
 import io.opentelemetry.api.internal.StringUtils;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.ContextKey;
@@ -12,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DemoPropagator implements TextMapPropagator {
-    private static final String FIELD = "X-ypsx-propagation";
+    private static final String FIELD = "X-propagation";
     public static final String UPSTREAM_NAME = "upstream_name";
     public static final ContextKey<String> PROPAGATION_UPSTREAM_NAME =
             ContextKey.named(UPSTREAM_NAME);

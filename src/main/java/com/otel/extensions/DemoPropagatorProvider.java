@@ -1,4 +1,4 @@
-package com.ypshengxian.otel.extensions;
+package com.otel.extensions;
 
 import com.google.auto.service.AutoService;
 import io.opentelemetry.context.propagation.TextMapPropagator;
