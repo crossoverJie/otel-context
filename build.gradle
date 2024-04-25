@@ -1,0 +1,91 @@
+plugins {
+    id 'java'
+    /*
+    Instrumentation agent extension mechanism expects a single jar containing everything required
+    for your extension. This also includes any external libraries that your extension uses and
+    cannot access from application classpath (see comment below about `javax.servlet-api` dependency).
+
+    Thus we use Shadow Gradle plugin to package our classes and all required runtime dependencies
+    into a single jar.
+    See https://imperceptiblethoughts.com/shadow/ for more details about Shadow plugin.
+     */
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.diffplug.spotless" version "6.24.0"
+}
+
+group = 'com.otel.extensions'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+ext {
+    versions = [
+            // this line is managed by .github/scripts/update-sdk-version.sh
+            opentelemetrySdk           : "1.34.1",
+
+            // these lines are managed by .github/scripts/update-version.sh
+            opentelemetryJavaagent     : "2.1.0-SNAPSHOT",
+            opentelemetryJavaagentAlpha: "2.1.0-alpha-SNAPSHOT",
+
+            junit                      : "5.10.1"
+    ]
+
+    deps = [
+            autoservice: dependencies.create(group: 'com.google.auto.service', name: 'auto-service', version: '1.1.1')
+    ]
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://maven.aliyun.com/repository/public" }
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+configurations {
+    /*
+    We create a separate gradle configuration to grab a published Otel instrumentation agent.
+    We don't need the agent during development of this extension module.
+    This agent is used only during integration test.
+    */
+    otel
+}
+
+dependencies {
+    /*
+  This dependency is required for DemoSpanProcessor both during compile and runtime.
+  Only dependencies added to `implementation` configuration will be picked up by Shadow plugin
+  and added to the resulting jar for our extension's distribution.
+   */
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+
+    implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
+
+    /*
+    Interfaces and SPIs that we implement. We use `compileOnly` dependency because during
+    runtime all necessary classes are provided by javaagent itself.
+     */
+    compileOnly 'io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi:1.34.1'
+    compileOnly 'io.opentelemetry.instrumentation:opentelemetry-instrumentation-api:1.32.0'
+    compileOnly 'io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api:1.32.0-alpha'
+
+    //Provides @AutoService annotation that makes registration of our SPI implementations much easier
+    compileOnly deps.autoservice
+    annotationProcessor deps.autoservice
+
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+}
+
+test {
+    useJUnitPlatform()
+}
