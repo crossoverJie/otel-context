@@ -48,27 +48,6 @@ public class DemoSpanProcessor implements SpanProcessor {
         System.out.println("SpanProcessor=====set baggage: " + span.getName());
 
 
-//        if (span.getKind() == SpanKind.SERVER){
-//            Baggage.current().toBuilder()
-//                    .put(UPSTREAM_NAME, span.getName())
-//                    .build()
-//                    .storeInContext(Context.current()).makeCurrent();
-
-//        var baggageScope = Baggage.current().toBuilder()
-//                .put(UPSTREAM_NAME, span.getName())
-//                .build()
-//                .storeInContext(Context.current()).makeCurrent();
-//            try (var baggageScope = Baggage.current().toBuilder()
-//                    .put(UPSTREAM_NAME, span.getName())
-//                    .build()
-//                    .storeInContext(Context.current()).makeCurrent()) {
-//                // do work in the scope of the baggage
-//            }
-
-
-//        }
-
-
         System.out.println("===========EndSpan===========");
     }
 

@@ -4,7 +4,7 @@
 
 ```shell
 java  \
--javaagent:/Users/chenjie/Downloads/blog-img/demo/opentelemetry-javaagent.jar \
+-javaagent:opentelemetry-javaagent.jar \
 -Dotel.javaagent.extensions=context-1.0-SNAPSHOT.jar \
 -Dotel.traces.exporter=otlp \
 -Dotel.propagators=tracecontext,baggage,demo \
