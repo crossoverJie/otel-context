@@ -13,3 +13,13 @@ java  \
 ```
 
 demo-0.0.1-SNAPSHOT.jar is any springboot application.
+
+Request any endpoint like this:
+
+```java
+	@RequestMapping("/request")
+	public String request(@RequestParam String name) {
+		log.info("request: {}", request);
+		return "";
+	}
+```
